@@ -58,9 +58,9 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "postgreSQL_allow_ac
   end_ip_address   = "0.0.0.0"
 }
 
-# resource "azurerm_postgresql_flexible_server_firewall_rule" "postgreSQL_allow_access_to_all" {
-#   name             = "AllowAllAccessFromPublic"
-#   server_id        = azurerm_postgresql_flexible_server.main.id
-#   start_ip_address = "0.0.0.0"
-#   end_ip_address   = "255.255.255.255"
-# }
+resource "azurerm_postgresql_flexible_server_firewall_rule" "postgreSQL_allow_access_to_all" {
+  name             = "AllowAllAccessFromPublic"
+  server_id        = azurerm_postgresql_flexible_server.main.id
+  start_ip_address = "0.0.0.0"
+  end_ip_address   = "255.255.255.255"
+}
