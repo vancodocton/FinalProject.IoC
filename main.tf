@@ -26,3 +26,28 @@ resource "azurerm_key_vault" "main" {
     ]
   }
 }
+
+resource "azurerm_postgresql_flexible_server" "main" {
+  resource_group_name = data.azurerm_resource_group.rg_main.name
+
+  name       = var.POSTGRES_SERVER_NAME
+  location   = data.azurerm_resource_group.rg_main.location
+  sku_name   = "B_Standard_B1ms"
+  version    = "14"
+  storage_mb = 32768
+
+  private_dns_zone_id = null
+  delegated_subnet_id = null
+
+  tags = {}
+
+  administrator_login    = azurerm_key_vault_secret.postgres_server_admin_login.value
+  administrator_password = azurerm_key_vault_secret.postgres_server_admin_password.value
+}
+
+resource "azurerm_postgresql_flexible_server_firewall_rule" "postgreSQL_allow_access_to_azure_service" {
+  name             = "AllowAllAzureServicesAndResourcesWithinAzureIps"
+  server_id        = azurerm_postgresql_flexible_server.main.id
+  start_ip_address = "0.0.0.0"
+  end_ip_address   = "0.0.0.0"
+}
