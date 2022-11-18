@@ -60,6 +60,9 @@ jobs:
     env:
       ARM_ACCESS_KEY: ${{ secrets.TERRAFORM_ARM_ACCESS_KEY }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
       TF_VAR_resource_group_name: ${{ secrets.TF_VAR_RESOURCE_GROUP_NAME }}
       TF_VAR_resource_group_location: ${{ secrets.TF_VAR_RESOURCE_GROUP_LOCATION }}
 
