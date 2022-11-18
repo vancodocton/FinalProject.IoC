@@ -3,7 +3,7 @@ resource "random_password" "postgres_server_administrator" {
 }
 
 resource "azurerm_key_vault_secret" "postgres_server_admin_login" {
-  name         = "postgre-server-administrator-password"
+  name         = "postgre-server-administrator-login"
   value        = var.POSTGRES_SERVER_ADMINISTRATOR_LOGIN
   key_vault_id = azurerm_key_vault.main.id
 }
