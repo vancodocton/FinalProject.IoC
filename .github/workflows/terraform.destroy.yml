@@ -18,6 +18,9 @@ jobs:
     environment: production
     env:
       ARM_ACCESS_KEY: ${{ secrets.TERRAFORM_ARM_ACCESS_KEY }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      TF_VAR_resource_group_name: ${{ secrets.TF_VAR_RESOURCE_GROUP_NAME }}
+      TF_VAR_resource_group_location: ${{ secrets.TF_VAR_RESOURCE_GROUP_LOCATION }}
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
