@@ -10,3 +10,16 @@ variable "resource_group_name" {
   type        = string
   sensitive   = true
 }
+
+# Azure PostgreSql Flexible Server
+variable "POSTGRES_SERVER_NAME" {
+  description = "Name of Azure PostgreSql Server"
+  type        = string
+  sensitive   = true
+}
+
+variable "POSTGRES_SERVER_ADMINISTRATOR_LOGIN" {
+  description = "Postgre Server Administrator Username"
+  sensitive   = true
+  type        = string
+}
