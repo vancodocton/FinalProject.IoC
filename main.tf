@@ -64,3 +64,11 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "postgreSQL_allow_ac
   start_ip_address = "0.0.0.0"
   end_ip_address   = "255.255.255.255"
 }
+
+resource "azurerm_service_plan" "main_linux" {
+  name                = "ASP-FinalProject-Linux-33db"
+  resource_group_name = data.azurerm_resource_group.rg_main.name
+  location            = data.azurerm_resource_group.rg_main.location
+  os_type             = "Linux"
+  sku_name            = "B1"
+}
