@@ -57,12 +57,12 @@ resource "azurerm_app_service_source_control" "idsv_github" {
   }
 }
 
-# resource "azurerm_key_vault_access_policy" "idsv_main" {
-#   key_vault_id = azurerm_key_vault.main.id
-#   tenant_id    = azurerm_linux_web_app.identity.identity.0.tenant_id
-#   object_id    = azurerm_linux_web_app.identity.identity.0.principal_id
-#   secret_permissions = [
-#     "Get",
-#     "List"
-#   ]
-# }
+resource "azurerm_key_vault_access_policy" "idsv_main" {
+  key_vault_id = azurerm_key_vault.main.id
+  tenant_id    = azurerm_linux_web_app.identity.identity.0.tenant_id
+  object_id    = azurerm_linux_web_app.identity.identity.0.principal_id
+  secret_permissions = [
+    "Get",
+    "List"
+  ]
+}
