@@ -21,6 +21,7 @@ resource "azurerm_key_vault_access_policy" "current" {
     "Set",
     "Get",
     "Delete",
+    "Recover",
   ]
 }
 
