@@ -19,6 +19,14 @@ resource "azurerm_linux_web_app" "identity" {
     }
     ftps_state = "FtpsOnly"
   }
+  identity {
+    type = "SystemAssigned"
+  }
+  connection_string {
+    name  = var.IDSV_IDENTITY_DB_CONNECTION_STRING_NAME
+    type  = "SQLAzure"
+    value = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.postgres_identity_db_dotnet_connection_string.id})"
+  }
 
   lifecycle {
     ignore_changes = [
@@ -48,3 +56,13 @@ resource "azurerm_app_service_source_control" "idsv_github" {
     ]
   }
 }
+
+# resource "azurerm_key_vault_access_policy" "idsv_main" {
+#   key_vault_id = azurerm_key_vault.main.id
+#   tenant_id    = azurerm_linux_web_app.identity.identity.0.tenant_id
+#   object_id    = azurerm_linux_web_app.identity.identity.0.principal_id
+#   secret_permissions = [
+#     "Get",
+#     "List"
+#   ]
+# }
