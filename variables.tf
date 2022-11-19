@@ -23,3 +23,8 @@ variable "POSTGRES_SERVER_ADMINISTRATOR_LOGIN" {
   sensitive   = true
   type        = string
 }
+
+variable "IDSV_IDENTITY_DB_CONNECTION_STRING_NAME" {
+  description = "Connection string to PosgreSql Database for Identity Server"
+  type        = string
+}

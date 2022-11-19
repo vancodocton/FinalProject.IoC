@@ -20,6 +20,18 @@ resource "azurerm_linux_web_app" "identity" {
     ftps_state = "FtpsOnly"
   }
 
+  connection_string {
+    name  = var.IDSV_IDENTITY_DB_CONNECTION_STRING_NAME
+    type  = "SQLAzure"
+    value = azurerm_key_vault_secret.postgres_identity_db_dotnet_connection_string.value
+  }
+
+  connection_string {
+    name  = "demo"
+    type  = "SQLAzure"
+    value = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.postgres_identity_db_dotnet_connection_string.id})"
+  }
+
   lifecycle {
     ignore_changes = [
       virtual_network_subnet_id,
