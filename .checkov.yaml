@@ -5,5 +5,10 @@ evaluate-variables: true
 external-modules-download-path: .external_modules
 framework:
   - terraform
+  - terraform_plan
 secrets-scan-file-type: []
 summary-position: top
+output:
+  - sarif
+  - cli
+output-file-path: reports/
