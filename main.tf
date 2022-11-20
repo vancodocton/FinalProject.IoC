@@ -17,6 +17,8 @@ resource "azurerm_key_vault" "main" {
     default_action = "Deny"
     bypass         = "AzureServices"
   }
+  tags = {
+  }
 }
 
 resource "azurerm_key_vault_access_policy" "current" {

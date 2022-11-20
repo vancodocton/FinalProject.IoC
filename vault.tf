@@ -11,6 +11,8 @@ resource "azurerm_key_vault_secret" "postgres_server_admin_login" {
     azurerm_key_vault_access_policy.current
   ]
   content_type = "text/plain"
+  tags = {
+  }
 }
 
 resource "azurerm_key_vault_secret" "postgres_server_admin_password" {
@@ -22,6 +24,8 @@ resource "azurerm_key_vault_secret" "postgres_server_admin_password" {
     azurerm_key_vault_access_policy.current
   ]
   content_type = "text/plain"
+  tags = {
+  }
 }
 
 resource "azurerm_key_vault_secret" "postgres_identity_db_dotnet_connection_string" {
@@ -33,4 +37,6 @@ resource "azurerm_key_vault_secret" "postgres_identity_db_dotnet_connection_stri
     azurerm_key_vault_access_policy.current
   ]
   content_type = "text/plain"
+  tags = {
+  }
 }
