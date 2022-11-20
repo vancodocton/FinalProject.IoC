@@ -8,6 +8,9 @@ permissions:
   contents: read
 
 jobs:
+  checkov:
+    uses: ./.github/workflows/checkov.yml
+
   terraform:
     name: "Terraform"
     runs-on: ubuntu-latest
