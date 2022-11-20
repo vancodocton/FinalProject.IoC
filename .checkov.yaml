@@ -1,0 +1,14 @@
+block-list-secret-scan: []
+branch: main
+download-external-modules: false
+evaluate-variables: true
+external-modules-download-path: .external_modules
+framework:
+  - terraform
+  - terraform_plan
+secrets-scan-file-type: []
+summary-position: bottom
+output:
+  - sarif
+  - cli
+output-file-path: reports/

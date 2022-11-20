@@ -11,6 +11,14 @@ resource "azurerm_key_vault" "main" {
   tenant_id                  = data.azurerm_client_config.current.tenant_id
   soft_delete_retention_days = 7
   sku_name                   = "standard"
+  purge_protection_enabled   = true
+
+  network_acls {
+    default_action = "Deny"
+    bypass         = "AzureServices"
+  }
+  tags = {
+  }
 }
 
 resource "azurerm_key_vault_access_policy" "current" {
@@ -27,6 +35,7 @@ resource "azurerm_key_vault_access_policy" "current" {
 }
 
 resource "azurerm_postgresql_flexible_server" "main" {
+  #checkov:skip=CKV_AZURE_136: geo-redundant backups is not necessary for development purpose.
   resource_group_name = data.azurerm_resource_group.rg_main.name
 
   name       = var.POSTGRES_SERVER_NAME

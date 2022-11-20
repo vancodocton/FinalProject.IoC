@@ -1,3 +1,8 @@
+# Checkov
+*.sarif
+results_cli.txt
+results_json.json
+
 # Local .terraform directories
 **/.terraform/*
 

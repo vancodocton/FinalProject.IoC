@@ -8,8 +8,12 @@ permissions:
   contents: read
 
 jobs:
-  terraform:
-    name: "Terraform"
+  checkov:
+    name: Run Checkov code analysis
+    uses: ./.github/workflows/checkov.yml
+
+  terraform-plan:
+    name: "Terraform Plan"
     runs-on: ubuntu-latest
     env:
       ARM_ACCESS_KEY: ${{ secrets.TERRAFORM_ARM_ACCESS_KEY }}
