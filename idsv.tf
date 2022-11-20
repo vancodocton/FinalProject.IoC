@@ -36,7 +36,7 @@ resource "azurerm_linux_web_app" "identity" {
     ]
   }
 }
-
+/*
 resource "azurerm_app_service_source_control" "idsv_github" {
   app_id   = azurerm_linux_web_app.identity.id
   repo_url = "https://github.com/vancodocton/FinalProject"
@@ -56,7 +56,7 @@ resource "azurerm_app_service_source_control" "idsv_github" {
     ]
   }
 }
-
+*/
 resource "azurerm_key_vault_access_policy" "idsv_main" {
   key_vault_id = azurerm_key_vault.main.id
   tenant_id    = azurerm_linux_web_app.identity.identity.0.tenant_id
