@@ -7,7 +7,7 @@ framework:
   - terraform
   - terraform_plan
 secrets-scan-file-type: []
-summary-position: top
+summary-position: bottom
 output:
   - sarif
   - cli
