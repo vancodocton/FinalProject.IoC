@@ -5,6 +5,7 @@ data "azurerm_resource_group" "rg_main" {
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "main" {
+  # checkov:skip=CKV_AZURE_109: ADD REASON
   name                       = "FinalProjectKeyVault"
   location                   = data.azurerm_resource_group.rg_main.location
   resource_group_name        = data.azurerm_resource_group.rg_main.name
@@ -14,7 +15,7 @@ resource "azurerm_key_vault" "main" {
   purge_protection_enabled   = true
 
   network_acls {
-    default_action = "Deny"
+    default_action = "Allow"
     bypass         = "AzureServices"
   }
   tags = {
