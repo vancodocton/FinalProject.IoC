@@ -1,9 +1,19 @@
+resource "time_rotating" "keyvault_secrets_rotation" {
+  rotation_months = 1
+}
+
+locals {
+  keyvault_secretsexpiration_date = timeadd(time_rotating.keyvault_secrets_rotation.rotation_rfc3339, "72h")
+}
+
 resource "random_password" "postgres_server_administrator" {
   length = 16
+  keepers = {
+    time = time_rotating.keyvault_secrets_rotation.id
+  }
 }
 
 resource "azurerm_key_vault_secret" "postgres_server_admin_login" {
-  # checkov:skip=CKV_AZURE_41: Will be fixed soon.
   name         = "postgre-server-administrator-login"
   value        = var.POSTGRES_SERVER_ADMINISTRATOR_LOGIN
   key_vault_id = azurerm_key_vault.main.id
@@ -13,10 +23,10 @@ resource "azurerm_key_vault_secret" "postgres_server_admin_login" {
   content_type = "text/plain"
   tags = {
   }
+  expiration_date = local.keyvault_secretsexpiration_date
 }
 
 resource "azurerm_key_vault_secret" "postgres_server_admin_password" {
-  # checkov:skip=CKV_AZURE_41: Will be fixed soon.
   name         = "postgre-server-administrator-password"
   value        = random_password.postgres_server_administrator.result
   key_vault_id = azurerm_key_vault.main.id
@@ -26,10 +36,10 @@ resource "azurerm_key_vault_secret" "postgres_server_admin_password" {
   content_type = "text/plain"
   tags = {
   }
+  expiration_date = local.keyvault_secretsexpiration_date
 }
 
 resource "azurerm_key_vault_secret" "postgres_identity_db_dotnet_connection_string" {
-  # checkov:skip=CKV_AZURE_41: Will be fixed soon.
   name         = "identity-db-dotnet-connection-string"
   value        = "Server=${azurerm_postgresql_flexible_server.main.name}.postgres.database.azure.com;Database=${azurerm_postgresql_flexible_server_database.identity.name};Port=5432;UID=${azurerm_key_vault_secret.postgres_server_admin_login.value};Password=${azurerm_key_vault_secret.postgres_server_admin_password.value};"
   key_vault_id = azurerm_key_vault.main.id
@@ -39,4 +49,5 @@ resource "azurerm_key_vault_secret" "postgres_identity_db_dotnet_connection_stri
   content_type = "text/plain"
   tags = {
   }
+  expiration_date = local.keyvault_secretsexpiration_date
 }

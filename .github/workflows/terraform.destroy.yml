@@ -53,8 +53,8 @@ jobs:
         run: terraform fmt -check
 
       - name: Terraform Plan
-        run: terraform plan -input=false --destroy --out destroy.tfplan
+        run: terraform plan -input=false --destroy --out main.destroy.tfplan
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && inputs.is_perform_plan == true
-        run: terraform apply -auto-approve -input=false destroy.tfplan
+        run: terraform apply -auto-approve -input=false main.destroy.tfplan
