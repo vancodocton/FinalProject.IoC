@@ -1,3 +1,9 @@
+variable "INF_ENV" {
+  description = "The environment name of infrastructure stack."
+  type = string
+  default = "Dev"
+}
+
 # Azure Resource group
 variable "resource_group_location" {
   description = "Location of the resource group."

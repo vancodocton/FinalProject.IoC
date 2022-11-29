@@ -6,7 +6,7 @@ data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "main" {
   # checkov:skip=CKV_AZURE_109: ADD REASON
-  name                       = "FinalProjectKeyVault"
+  name                       = "FinalProjectKeyVault-${var.INF_ENV}"
   location                   = data.azurerm_resource_group.rg_main.location
   resource_group_name        = data.azurerm_resource_group.rg_main.name
   tenant_id                  = data.azurerm_client_config.current.tenant_id
@@ -18,7 +18,9 @@ resource "azurerm_key_vault" "main" {
     default_action = "Allow"
     bypass         = "AzureServices"
   }
+
   tags = {
+    Environment = var.INF_ENV
   }
 }
 
@@ -48,7 +50,9 @@ resource "azurerm_postgresql_flexible_server" "main" {
   private_dns_zone_id = null
   delegated_subnet_id = null
 
-  tags = {}
+  tags = {
+    Environment = var.INF_ENV
+  }
 
   administrator_login    = azurerm_key_vault_secret.postgres_server_admin_login.value
   administrator_password = azurerm_key_vault_secret.postgres_server_admin_password.value
@@ -75,9 +79,13 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "postgreSQL_allow_ac
 }
 
 resource "azurerm_service_plan" "main_linux" {
-  name                = "ASP-FinalProject-Linux-33db"
+  name                = "ASP-FinalProject-Linux-${var.INF_ENV}"
   resource_group_name = data.azurerm_resource_group.rg_main.name
   location            = data.azurerm_resource_group.rg_main.location
   os_type             = "Linux"
   sku_name            = "B1"
+
+  tags = {
+    Environment = var.INF_ENV
+  }
 }
