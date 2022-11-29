@@ -17,7 +17,7 @@ jobs:
     name: "Terraform Apply"
     needs: [checkov]
     runs-on: ubuntu-latest
-    environment: production
+    environment: Development
     env:
       ARM_ACCESS_KEY: ${{ secrets.TERRAFORM_ARM_ACCESS_KEY }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
@@ -29,7 +29,7 @@ jobs:
       TF_VAR_POSTGRES_SERVER_NAME: ${{ secrets.TF_VAR_POSTGRES_SERVER_NAME }}
       TF_VAR_POSTGRES_SERVER_ADMINISTRATOR_LOGIN: ${{ secrets.TF_VAR_POSTGRES_SERVER_ADMINISTRATOR_LOGIN }}
       TF_VAR_IDSV_IDENTITY_DB_CONNECTION_STRING_NAME: ${{ secrets.TF_VAR_IDSV_IDENTITY_DB_CONNECTION_STRING_NAME }}
-
+      TF_INF_ENV: Dev
     defaults:
       run:
         shell: bash
