@@ -26,6 +26,7 @@ jobs:
       TF_VAR_POSTGRES_SERVER_NAME: ${{ secrets.TF_VAR_POSTGRES_SERVER_NAME }}
       TF_VAR_POSTGRES_SERVER_ADMINISTRATOR_LOGIN: ${{ secrets.TF_VAR_POSTGRES_SERVER_ADMINISTRATOR_LOGIN }}
       TF_VAR_IDSV_IDENTITY_DB_CONNECTION_STRING_NAME: ${{ secrets.TF_VAR_IDSV_IDENTITY_DB_CONNECTION_STRING_NAME }}
+      TF_BACKEND_KEY: finalproject.dev.terraform.tfstate
 
     defaults:
       run:
@@ -41,7 +42,7 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -backend-config="key=${{ env.TF_BACKEND_KEY }}" -input=false
 
       - name: Terraform Format
         run: terraform fmt -check
