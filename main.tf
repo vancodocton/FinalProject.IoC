@@ -6,7 +6,7 @@ data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "main" {
   # checkov:skip=CKV_AZURE_109: ADD REASON
-  name                       = "FinalProjectKeyVault-${var.INF_ENV}"
+  name                       = "FP-KeyVault-${var.INF_ENV}"
   location                   = data.azurerm_resource_group.rg_main.location
   resource_group_name        = data.azurerm_resource_group.rg_main.name
   tenant_id                  = data.azurerm_client_config.current.tenant_id
