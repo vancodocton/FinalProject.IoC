@@ -1,8 +1,8 @@
-name: "Terraform Apply"
+name: "Terraform Plan for Production"
 
 on:
-  push:
-    branches: ["main"]
+  pull_request:
+    branches: ["prod**"]
   workflow_dispatch:
 
 permissions:
@@ -13,11 +13,9 @@ jobs:
     name: Run Checkov code analysis
     uses: ./.github/workflows/checkov.yml
 
-  terraform-apply:
-    name: "Terraform Apply"
-    needs: [checkov]
+  terraform-plan:
+    name: "Terraform Plan"
     runs-on: ubuntu-latest
-    environment: Development
     env:
       ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
@@ -29,8 +27,8 @@ jobs:
       TF_VAR_POSTGRES_SERVER_NAME: ${{ secrets.TF_VAR_POSTGRES_SERVER_NAME }}
       TF_VAR_POSTGRES_SERVER_ADMINISTRATOR_LOGIN: ${{ secrets.TF_VAR_POSTGRES_SERVER_ADMINISTRATOR_LOGIN }}
       TF_VAR_IDSV_IDENTITY_DB_CONNECTION_STRING_NAME: ${{ secrets.TF_VAR_IDSV_IDENTITY_DB_CONNECTION_STRING_NAME }}
-      TF_INF_ENV: Dev
-      TF_BACKEND_KEY: finalproject.dev.terraform.tfstate
+      TF_INF_ENV: Prod
+      TF_BACKEND_KEY: finalproject.prod.terraform.tfstate
 
     defaults:
       run:
@@ -52,9 +50,4 @@ jobs:
         run: terraform fmt -check
 
       - name: Terraform Plan
-        # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform plan -input=false -out main.tfplan
-
-      - name: Terraform Apply
-        # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false main.tfplan
