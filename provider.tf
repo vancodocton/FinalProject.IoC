@@ -14,6 +14,7 @@ terraform {
   backend "azurerm" {
     container_name       = "tfstate"
     storage_account_name = "finalprojecttfstate"
+    key = "COMP1682.terraform.tfstate"
   }
 }
 

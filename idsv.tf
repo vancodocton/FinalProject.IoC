@@ -9,7 +9,7 @@ resource "azurerm_linux_web_app" "identity" {
   #checkov:skip=CKV_AZURE_13: This is identity server, not need built-in authentication
   #checkov:skip=CKV_AZURE_88: Will be fixed on prodution env
   name                = "FinalProjectIdentity-${var.INF_ENV}"
-  resource_group_name = data.azurerm_resource_group.rg_main.name
+  resource_group_name = data.azurerm_resource_group.main.name
   location            = azurerm_service_plan.main_linux.location
   service_plan_id     = azurerm_service_plan.main_linux.id
   https_only          = true

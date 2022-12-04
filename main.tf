@@ -1,4 +1,4 @@
-data "azurerm_resource_group" "rg_main" {
+data "azurerm_resource_group" "main" {
   name = var.resource_group_name
 }
 
@@ -7,8 +7,8 @@ data "azurerm_client_config" "current" {}
 resource "azurerm_key_vault" "main" {
   # checkov:skip=CKV_AZURE_109: ADD REASON
   name                       = "FP-KeyVault-${var.INF_ENV}"
-  location                   = data.azurerm_resource_group.rg_main.location
-  resource_group_name        = data.azurerm_resource_group.rg_main.name
+  location                   = data.azurerm_resource_group.main.location
+  resource_group_name        = data.azurerm_resource_group.main.name
   tenant_id                  = data.azurerm_client_config.current.tenant_id
   soft_delete_retention_days = 7
   sku_name                   = "standard"
@@ -39,10 +39,10 @@ resource "azurerm_key_vault_access_policy" "current" {
 
 resource "azurerm_postgresql_flexible_server" "main" {
   #checkov:skip=CKV_AZURE_136: geo-redundant backups is not necessary for development purpose.
-  resource_group_name = data.azurerm_resource_group.rg_main.name
+  resource_group_name = data.azurerm_resource_group.main.name
 
   name       = lower("${var.POSTGRES_SERVER_NAME}${var.INF_ENV}")
-  location   = data.azurerm_resource_group.rg_main.location
+  location   = data.azurerm_resource_group.main.location
   sku_name   = "B_Standard_B1ms"
   version    = "14"
   storage_mb = 32768
@@ -80,8 +80,8 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "postgreSQL_allow_ac
 
 resource "azurerm_service_plan" "main_linux" {
   name                = "ASP-FinalProject-Linux-${var.INF_ENV}"
-  resource_group_name = data.azurerm_resource_group.rg_main.name
-  location            = data.azurerm_resource_group.rg_main.location
+  resource_group_name = data.azurerm_resource_group.main.name
+  location            = data.azurerm_resource_group.main.location
   os_type             = "Linux"
   sku_name            = "B1"
 
