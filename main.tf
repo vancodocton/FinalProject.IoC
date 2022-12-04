@@ -27,7 +27,7 @@ resource "azurerm_key_vault" "main" {
   }
 
   tags = {
-    tf-workspace = random_pet.suffix.id
+    tf-workspace = terraform.workspace
   }
 }
 
@@ -58,7 +58,7 @@ resource "azurerm_postgresql_flexible_server" "main" {
   delegated_subnet_id = null
 
   tags = {
-    tf-workspace = random_pet.suffix.id
+    tf-workspace = terraform.workspace
   }
 
   administrator_login    = azurerm_key_vault_secret.postgres_server_admin_login.value
