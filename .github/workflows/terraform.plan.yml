@@ -1,20 +1,46 @@
 name: "Terraform Plan"
 
 on:
-  pull_request:
-    branches: ["main"]
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      terraform_workspace:
+        description: The name of Terraform Workspace
+        type: string
+        default: "default"
+      terraform_plan_args:
+        description: The additional agruments for terraform plan
+        type: string
+        required: false
+    secrets:
+      TF_API_TOKEN:
+        required: false
+      ARM_ACCESS_KEY:
+        required: true
+      ARM_SUBSCRIPTION_ID:
+        required: true
+      ARM_CLIENT_ID:
+        required: true
+      ARM_TENANT_ID:
+        required: true
+      ARM_CLIENT_SECRET:
+        required: true
+      resource_group_name:
+        required: true
+      resource_group_location:
+        required: true
+      POSTGRES_SERVER_NAME:
+        required: true
+      POSTGRES_SERVER_ADMINISTRATOR_LOGIN:
+        required: true
+      IDSV_IDENTITY_DB_CONNECTION_STRING_NAME:
+        required: true
 
 permissions:
   contents: read
 
 jobs:
-  checkov:
-    name: Run Checkov code analysis
-    uses: ./.github/workflows/checkov.yml
-
-  terraform-plan:
-    name: "Terraform Plan"
+  plan:
+    name: "Generate Plan"
     runs-on: ubuntu-latest
     env:
       ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
@@ -22,13 +48,11 @@ jobs:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-      TF_VAR_resource_group_name: ${{ secrets.TF_VAR_RESOURCE_GROUP_NAME }}
-      TF_VAR_resource_group_location: ${{ secrets.TF_VAR_RESOURCE_GROUP_LOCATION }}
-      TF_VAR_POSTGRES_SERVER_NAME: ${{ secrets.TF_VAR_POSTGRES_SERVER_NAME }}
-      TF_VAR_POSTGRES_SERVER_ADMINISTRATOR_LOGIN: ${{ secrets.TF_VAR_POSTGRES_SERVER_ADMINISTRATOR_LOGIN }}
-      TF_VAR_IDSV_IDENTITY_DB_CONNECTION_STRING_NAME: ${{ secrets.TF_VAR_IDSV_IDENTITY_DB_CONNECTION_STRING_NAME }}
-      TF_VAR_INF_ENV: Dev
-      TF_VAR_BACKEND_KEY: finalproject.dev.terraform.tfstate
+      TF_VAR_resource_group_name: ${{ secrets.resource_group_name }}
+      TF_VAR_resource_group_location: ${{ secrets.resource_group_location }}
+      TF_VAR_POSTGRES_SERVER_NAME: ${{ secrets.POSTGRES_SERVER_NAME }}
+      TF_VAR_POSTGRES_SERVER_ADMINISTRATOR_LOGIN: ${{ secrets.POSTGRES_SERVER_ADMINISTRATOR_LOGIN }}
+      TF_VAR_IDSV_IDENTITY_DB_CONNECTION_STRING_NAME: ${{ secrets.IDSV_IDENTITY_DB_CONNECTION_STRING_NAME }}
 
     defaults:
       run:
@@ -44,10 +68,13 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       - name: Terraform Init
-        run: terraform init -backend-config="key=${{ env.TF_VAR_BACKEND_KEY }}" -input=false
+        run: terraform init -input=false
+
+      - name: Terraform Workspace
+        run: terraform workspace select ${{ inputs.terraform_workspace}}
 
       - name: Terraform Format
         run: terraform fmt -check
 
       - name: Terraform Plan
-        run: terraform plan -input=false -out main.tfplan
+        run: terraform plan -input=false -out default.tfplan ${{ inputs.terraform_plan_args }}

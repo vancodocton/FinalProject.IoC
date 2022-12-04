@@ -1,0 +1,29 @@
+name: "CI workflow"
+
+on:
+  pull_request:
+    branches: ["main"]
+    types:
+      - opened
+      - reopened
+      - synchronize
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  TF_WORKSPACE_DEV: "default"
+
+jobs:
+  checkov:
+    name: Run Checkov code analysis
+    uses: ./.github/workflows/checkov.yml
+
+  terraform-plan:
+    name: Run Terraform Plan
+    uses: ./.github/workflows/terraform.plan.yml
+    with:
+      terraform_workspace: default
+      terraform_plan_args: "-var-file ./variables.dev.tfvars"
+    secrets: inherit
