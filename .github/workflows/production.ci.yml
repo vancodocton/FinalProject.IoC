@@ -1,0 +1,26 @@
+name: "Production: CI workflow"
+
+on:
+  pull_request:
+    branches: ["prod/**"]
+    types:
+      - opened
+      - reopened
+      - synchronize
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checkov:
+    name: Run Checkov code analysis
+    uses: ./.github/workflows/checkov.yml
+
+  terraform-plan:
+    name: Run Terraform Plan
+    uses: ./.github/workflows/terraform.plan.yml
+    with:
+      terraform_workspace: "Production"
+      terraform_plan_args: "-var-file ./variables.prod.tfvars"
+    secrets: inherit

@@ -23,7 +23,7 @@ resource "azurerm_key_vault_secret" "postgres_server_admin_login" {
   ]
   content_type = "text/plain"
   tags = {
-    Environment = var.INF_ENV
+    tf-workspace = random_pet.suffix.id
   }
 }
 
@@ -36,13 +36,13 @@ resource "azurerm_key_vault_secret" "postgres_server_admin_password" {
   ]
   content_type = "text/plain"
   tags = {
-    Environment = var.INF_ENV
+    tf-workspace = random_pet.suffix.id
   }
   expiration_date = local.keyvault_secrets_expiration_date
 }
 
 resource "azurerm_key_vault_secret" "postgres_identity_db_dotnet_connection_string" {
-  name         = "identity-db-dotnet-connection-string"
+  name         = var.IDSV_IDENTITY_DB_CONNECTION_STRING_NAME
   value        = "Server=${azurerm_postgresql_flexible_server.main.name}.postgres.database.azure.com;Database=${azurerm_postgresql_flexible_server_database.identity.name};Port=5432;UID=${azurerm_key_vault_secret.postgres_server_admin_login.value};Password=${azurerm_key_vault_secret.postgres_server_admin_password.value};"
   key_vault_id = azurerm_key_vault.main.id
   depends_on = [
@@ -50,7 +50,7 @@ resource "azurerm_key_vault_secret" "postgres_identity_db_dotnet_connection_stri
   ]
   content_type = "text/plain"
   tags = {
-    Environment = var.INF_ENV
+    tf-workspace = random_pet.suffix.id
   }
   expiration_date = local.keyvault_secrets_expiration_date
 }

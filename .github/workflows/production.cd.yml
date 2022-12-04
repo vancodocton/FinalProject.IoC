@@ -1,0 +1,27 @@
+name: "Development: CI/CD pipeline"
+
+on:
+  push:
+    branches: ["prod/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  TF_WORKSPACE_DEV: "default"
+
+jobs:
+  checkov:
+    name: Run Checkov code analysis
+    uses: ./.github/workflows/checkov.yml
+
+  terraform-apply:
+    name: Apply Terraform Plan
+    needs: checkov
+    uses: ./.github/workflows/terraform.apply.yml
+    with:
+      terraform_workspace: "Production"
+      terraform_plan_args: "-var-file ./variables.prod.tfvars"
+      github_environment: "Production"
+    secrets: inherit
