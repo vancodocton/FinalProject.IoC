@@ -30,6 +30,11 @@ variable "POSTGRES_SERVER_ADMINISTRATOR_LOGIN" {
   type        = string
 }
 
+variable "azurerm_service_plan_sku_name" {
+  description = "SKU of the resource group."
+  type        = string
+}
+
 variable "IDSV_IDENTITY_DB_CONNECTION_STRING_NAME" {
   description = "Connection string to PosgreSql Database for Identity Server"
   type        = string

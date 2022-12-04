@@ -23,7 +23,7 @@ resource "azurerm_key_vault_secret" "postgres_server_admin_login" {
   ]
   content_type = "text/plain"
   tags = {
-    Environment = var.INF_ENV
+    tf-workspace = random_pet.suffix.id
   }
 }
 
@@ -36,7 +36,7 @@ resource "azurerm_key_vault_secret" "postgres_server_admin_password" {
   ]
   content_type = "text/plain"
   tags = {
-    Environment = var.INF_ENV
+    tf-workspace = random_pet.suffix.id
   }
   expiration_date = local.keyvault_secrets_expiration_date
 }
@@ -50,7 +50,7 @@ resource "azurerm_key_vault_secret" "postgres_identity_db_dotnet_connection_stri
   ]
   content_type = "text/plain"
   tags = {
-    Environment = var.INF_ENV
+    tf-workspace = random_pet.suffix.id
   }
   expiration_date = local.keyvault_secrets_expiration_date
 }
