@@ -27,6 +27,11 @@ variable "gh_publish_profile_environment" {
   description = "The deployment environment name of `gh_publish_profile_name` secret"
 }
 
+variable "gh_azure_app_name_name" {
+  type        = string
+  description = "The secret name for Azure App Service"
+}
+
 variable "branch_name" {
   type        = string
   description = "The name of branch for deployment"

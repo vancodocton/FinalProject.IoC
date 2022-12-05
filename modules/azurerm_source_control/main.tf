@@ -24,7 +24,8 @@ resource "azurerm_app_service_source_control" "main" {
 }
 
 locals {
-  publish_profile_filename         = "publishing-profile.xml"
   script_publish_profile           = "az webapp deployment list-publishing-profiles --ids ${data.azurerm_linux_web_app.main.id} --xml"
-  gh_secret_publish_profile_script = "gh secret --repo ${var.repo_url} set ${var.gh_publish_profile_name} --env ${var.gh_publish_profile_environment} --body $(${local.script_publish_profile})"
+  script_gh_secret_publish_profile = "gh secret --repo ${var.repo_url} set ${var.gh_publish_profile_name} --env ${var.gh_publish_profile_environment} --body $(${local.script_publish_profile})"
+  script_gh_secret_app_name        = "gh secret --repo ${var.repo_url} set ${var.gh_azure_app_name_name} --env ${var.gh_publish_profile_environment} --body '${data.azurerm_linux_web_app.main.name}'"
+
 }
