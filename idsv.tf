@@ -18,7 +18,7 @@ resource "azurerm_linux_web_app" "identity" {
   client_certificate_mode    = "OptionalInteractiveUser"
 
   tags = {
-    Environment = random_pet.suffix.id
+    tf-workspace = terraform.workspace
   }
   logs {
     detailed_error_messages = true
