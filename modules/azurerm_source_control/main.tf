@@ -1,12 +1,12 @@
 data "azurerm_linux_web_app" "main" {
-  name = "${var.WEBAPP_NAME}-${var.INF_ENV}"
-  resource_group_name = var.RESOURCE_GROUP_NAME
+  name                = var.web_app_name
+  resource_group_name = var.resource_group_name
 }
 
 resource "azurerm_app_service_source_control" "main" {
   app_id   = data.azurerm_linux_web_app.main.id
-  repo_url = var.REPO_URL
-  branch   = var.BRANCH
+  repo_url = var.repo_url
+  branch   = var.branch_name
 
   depends_on = [
     data.azurerm_linux_web_app.main
@@ -21,4 +21,10 @@ resource "azurerm_app_service_source_control" "main" {
       github_action_configuration
     ]
   }
+}
+
+locals {
+  publish_profile_filename         = "publishing-profile.xml"
+  script_publish_profile           = "az webapp deployment list-publishing-profiles --ids ${data.azurerm_linux_web_app.main.id} --xml"
+  gh_secret_publish_profile_script = "gh secret --repo ${var.repo_url} set ${var.gh_publish_profile_name} --env ${var.gh_publish_profile_environment} --body $(${local.script_publish_profile})"
 }
