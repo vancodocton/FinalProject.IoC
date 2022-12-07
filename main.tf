@@ -48,7 +48,7 @@ resource "azurerm_postgresql_flexible_server" "main" {
   #checkov:skip=CKV_AZURE_136: geo-redundant backups is not necessary for development purpose.
   resource_group_name = data.azurerm_resource_group.main.name
 
-  name       = lower("${var.POSTGRES_SERVER_NAME}${random_pet.suffix.id}")
+  name       = "psqlserver${random_pet.suffix.id}"
   location   = data.azurerm_resource_group.main.location
   sku_name   = "B_Standard_B1ms"
   version    = "14"
@@ -71,14 +71,14 @@ resource "azurerm_postgresql_flexible_server" "main" {
   }
 }
 
-resource "azurerm_postgresql_flexible_server_firewall_rule" "postgreSQL_allow_access_to_azure_service" {
+resource "azurerm_postgresql_flexible_server_firewall_rule" "main_allow_azure_services" {
   name             = "AllowAllAzureServicesAndResourcesWithinAzureIps"
   server_id        = azurerm_postgresql_flexible_server.main.id
   start_ip_address = "0.0.0.0"
   end_ip_address   = "0.0.0.0"
 }
 
-resource "azurerm_postgresql_flexible_server_firewall_rule" "postgreSQL_allow_access_to_all" {
+resource "azurerm_postgresql_flexible_server_firewall_rule" "main_allow_all" {
   name             = "AllowAllAccessFromPublic"
   server_id        = azurerm_postgresql_flexible_server.main.id
   start_ip_address = "0.0.0.0"
@@ -86,7 +86,7 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "postgreSQL_allow_ac
 }
 
 resource "azurerm_service_plan" "main_linux" {
-  name                = "ASP-Demo-Linux-${random_pet.suffix.id}"
+  name                = "ASP-Linux-${random_pet.suffix.id}"
   resource_group_name = data.azurerm_resource_group.main.name
   location            = data.azurerm_resource_group.main.location
   os_type             = "Linux"
