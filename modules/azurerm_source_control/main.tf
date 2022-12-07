@@ -7,13 +7,18 @@ data "azurerm_linux_web_app" "main" {
   resource_group_name = data.azurerm_resource_group.main.name
 }
 
+resource "azurerm_source_control_token" "github_main" {
+  type  = "GitHub"
+  token = var.github_token
+}
+
 resource "azurerm_app_service_source_control" "main" {
   app_id   = data.azurerm_linux_web_app.main.id
   repo_url = var.repo_url
   branch   = var.branch_name
 
   depends_on = [
-    data.azurerm_linux_web_app.main
+    azurerm_source_control_token.github_main
   ]
 
   github_action_configuration {

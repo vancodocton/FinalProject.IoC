@@ -1,3 +1,8 @@
+variable "github_token" {
+  description = "Token of GitHub"
+  type = string
+  sensitive = true
+}
 
 variable "resource_group_name" {
   description = "The name of the resource group."
