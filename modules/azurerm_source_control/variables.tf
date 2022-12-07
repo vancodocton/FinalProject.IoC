@@ -1,39 +1,48 @@
+variable "github_token" {
+  description = "Token of GitHub"
+  type        = string
+  sensitive   = true
+}
 
+# Azure
 variable "resource_group_name" {
   description = "The name of the resource group."
   type        = string
   sensitive   = true
 }
 
-variable "web_app_name" {
+variable "azure_app_service_name" {
   description = "The name of the web app"
   type        = string
   sensitive   = true
 }
 
-variable "repo_url" {
+# GitHub
+variable "gh_repo_full_name" {
   type        = string
-  description = "The repository URL"
+  description = "The fullname of GitHub repository"
   sensitive   = true
 }
 
-variable "gh_publish_profile_name" {
-  type        = string
-  description = "The secret name of Azure publish profile for deployment"
-}
-
-variable "gh_publish_profile_environment" {
-  type        = string
-  description = "The deployment environment name of `gh_publish_profile_name` secret"
-}
-
-variable "gh_azure_app_name_name" {
-  type        = string
-  description = "The secret name for Azure App Service"
-}
-
-variable "branch_name" {
+variable "gh_repo_deployment_branch" {
   type        = string
   description = "The name of branch for deployment"
-  default     = "main"
+  sensitive   = true
+}
+
+variable "gh_azure_app_service_secret_name" {
+  description = "The name of the web app"
+  type        = string
+  sensitive   = true
+}
+
+variable "gh_azure_publish_profile_secret_name" {
+  description = "The key of Azure publish profile"
+  type        = string
+  sensitive   = true
+}
+
+variable "gh_environment_name" {
+  type        = string
+  description = "The deployment environment name"
 }
