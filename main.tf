@@ -71,14 +71,14 @@ resource "azurerm_postgresql_flexible_server" "main" {
   }
 }
 
-resource "azurerm_postgresql_flexible_server_firewall_rule" "postgreSQL_allow_access_to_azure_service" {
+resource "azurerm_postgresql_flexible_server_firewall_rule" "main_allow_azure_services" {
   name             = "AllowAllAzureServicesAndResourcesWithinAzureIps"
   server_id        = azurerm_postgresql_flexible_server.main.id
   start_ip_address = "0.0.0.0"
   end_ip_address   = "0.0.0.0"
 }
 
-resource "azurerm_postgresql_flexible_server_firewall_rule" "postgreSQL_allow_access_to_all" {
+resource "azurerm_postgresql_flexible_server_firewall_rule" "main_allow_all" {
   name             = "AllowAllAccessFromPublic"
   server_id        = azurerm_postgresql_flexible_server.main.id
   start_ip_address = "0.0.0.0"
