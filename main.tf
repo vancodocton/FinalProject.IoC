@@ -86,7 +86,7 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "main_allow_all" {
 }
 
 resource "azurerm_service_plan" "main_linux" {
-  name                = "ASP-Demo-Linux-${random_pet.suffix.id}"
+  name                = "ASP-Linux-${random_pet.suffix.id}"
   resource_group_name = data.azurerm_resource_group.main.name
   location            = data.azurerm_resource_group.main.location
   os_type             = "Linux"
