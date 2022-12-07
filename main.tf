@@ -48,7 +48,7 @@ resource "azurerm_postgresql_flexible_server" "main" {
   #checkov:skip=CKV_AZURE_136: geo-redundant backups is not necessary for development purpose.
   resource_group_name = data.azurerm_resource_group.main.name
 
-  name       = lower("${var.POSTGRES_SERVER_NAME}${random_pet.suffix.id}")
+  name       = "psqlserver${random_pet.suffix.id}"
   location   = data.azurerm_resource_group.main.location
   sku_name   = "B_Standard_B1ms"
   version    = "14"
