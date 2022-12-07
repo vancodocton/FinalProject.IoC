@@ -66,3 +66,18 @@ resource "azurerm_key_vault_access_policy" "idsv_main" {
     "List"
   ]
 }
+
+module "azurerm_source_control" {
+  source       = "./modules/azurerm_source_control"
+  github_token = var.github_token
+
+  resource_group_name    = data.azurerm_resource_group.main.name
+  azure_app_service_name = azurerm_linux_web_app.identity.name
+
+  gh_repo_full_name         = var.gh_repo_full_name
+  gh_repo_deployment_branch = var.gh_repo_deployment_branch
+  gh_environment_name       = var.gh_environment_name
+
+  gh_azure_app_service_secret_name     = "IDSV_NAME"
+  gh_azure_publish_profile_secret_name = "PUBLISH_PROFILE_IDENTITYSERVER"
+}

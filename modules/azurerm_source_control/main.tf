@@ -52,6 +52,9 @@ data "local_sensitive_file" "input" {
 }
 
 resource "null_resource" "get_publishing_profile" {
+  triggers = {
+    always_run = timestamp()
+  }
   provisioner "local-exec" {
     command = "az webapp deployment list-publishing-profiles --ids ${data.azurerm_linux_web_app.main.id} --xml > profile.xml"
   }
