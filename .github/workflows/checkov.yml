@@ -21,6 +21,10 @@ jobs:
           config_file: .checkov.yaml
           output_file_path: reports/results.sarif
 
+      - name: ls
+        run: |
+          ls
+
       - uses: actions/upload-artifact@v3
         name: Upload Checkov results artifacts
         with:
