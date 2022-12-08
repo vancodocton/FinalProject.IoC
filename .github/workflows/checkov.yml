@@ -19,12 +19,7 @@ jobs:
         with:
           directory: .
           config_file: .checkov.yaml
-          output_file_path: reports/results.sarif
-
-      - name: ls
-        run: |
-          ls
-          ls reports
+          output_file_path: reports/
 
       - uses: actions/upload-artifact@v3
         name: Upload Checkov results artifacts
