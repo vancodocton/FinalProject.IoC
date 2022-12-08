@@ -103,7 +103,7 @@ resource "azurerm_application_insights" "example" {
   resource_group_name = data.azurerm_resource_group.main.name
   application_type    = "web"
 
-  # tags = {
-  #   tf-workspace = terraform.workspace
-  # }
+  tags = {
+    tf-workspace = terraform.workspace
+  }
 }
