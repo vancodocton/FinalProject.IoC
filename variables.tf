@@ -27,3 +27,13 @@ variable "IDSV_IDENTITY_DB_CONNECTION_STRING_NAME" {
   description = "Connection string to PosgreSql Database for Identity Server"
   type        = string
 }
+
+variable "arm_log_analytics_workspace" {
+  description = "the SKU of the Log Analytics Workspace"
+  type = object({
+    sku               = string
+    daily_quota_gb    = number
+    retention_in_days = number
+  })
+  sensitive = true
+}

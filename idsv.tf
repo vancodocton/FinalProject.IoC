@@ -30,7 +30,37 @@ resource "azurerm_linux_web_app" "identity" {
       }
     }
   }
-
+  app_settings = {
+    APPINSIGHTS_INSTRUMENTATIONKEY                  = azurerm_application_insights.main.instrumentation_key
+    APPINSIGHTS_PROFILERFEATURE_VERSION             = "disabled"
+    APPINSIGHTS_SNAPSHOTFEATURE_VERSION             = "disabled"
+    APPLICATIONINSIGHTS_CONNECTION_STRING           = "InstrumentationKey=${azurerm_application_insights.main.instrumentation_key};IngestionEndpoint=https://eastasia-0.in.applicationinsights.azure.com/;LiveEndpoint=https://eastasia.livediagnostics.monitor.azure.com/"
+    ApplicationInsightsAgent_EXTENSION_VERSION      = "~3"
+    DiagnosticServices_EXTENSION_VERSION            = "disabled"
+    InstrumentationEngine_EXTENSION_VERSION         = "disabled"
+    SnapshotDebugger_EXTENSION_VERSION              = "disabled"
+    XDT_MicrosoftApplicationInsights_BaseExtensions = "disabled"
+    XDT_MicrosoftApplicationInsights_Mode           = "recommended"
+    XDT_MicrosoftApplicationInsights_PreemptSdk     = "disabled"
+  }
+  sticky_settings {
+    app_setting_names = [
+      "APPINSIGHTS_INSTRUMENTATIONKEY",
+      "APPLICATIONINSIGHTS_CONNECTION_STRING ",
+      "APPINSIGHTS_PROFILERFEATURE_VERSION",
+      "APPINSIGHTS_SNAPSHOTFEATURE_VERSION",
+      "ApplicationInsightsAgent_EXTENSION_VERSION",
+      "XDT_MicrosoftApplicationInsights_BaseExtensions",
+      "DiagnosticServices_EXTENSION_VERSION",
+      "InstrumentationEngine_EXTENSION_VERSION",
+      "SnapshotDebugger_EXTENSION_VERSION",
+      "XDT_MicrosoftApplicationInsights_Mode",
+      "XDT_MicrosoftApplicationInsights_PreemptSdk",
+      "APPLICATIONINSIGHTS_CONFIGURATION_CONTENT",
+      "XDT_MicrosoftApplicationInsightsJava",
+      "XDT_MicrosoftApplicationInsights_NodeJS",
+    ]
+  }
   site_config {
     always_on = false // always_on cannot be set to true when using Development
     application_stack {
