@@ -96,3 +96,14 @@ resource "azurerm_service_plan" "main_linux" {
     tf-workspace = terraform.workspace
   }
 }
+
+resource "azurerm_application_insights" "example" {
+  name                = "AAI-Web-${random_pet.suffix.id}"
+  location            = data.azurerm_resource_group.main.location
+  resource_group_name = data.azurerm_resource_group.main.name
+  application_type    = "web"
+
+  # tags = {
+  #   tf-workspace = terraform.workspace
+  # }
+}
