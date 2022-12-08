@@ -54,3 +54,17 @@ resource "azurerm_key_vault_secret" "postgres_identity_db_dotnet_connection_stri
   }
   expiration_date = local.keyvault_secrets_expiration_date
 }
+
+resource "azurerm_key_vault_secret" "postgres_api_db_dotnet_connection_string" {
+  name         = "psql-api-db-dotnet-conn-str"
+  value        = "Server=${azurerm_postgresql_flexible_server.main.fqdn};Database=${azurerm_postgresql_flexible_server_database.api.name};Port=5432;UID=${azurerm_key_vault_secret.postgres_server_admin_login.value};Password=${azurerm_key_vault_secret.postgres_server_admin_password.value};"
+  key_vault_id = azurerm_key_vault.main.id
+  depends_on = [
+    azurerm_key_vault_access_policy.current
+  ]
+  content_type = "text/plain"
+  tags = {
+    tf-workspace = terraform.workspace
+  }
+  expiration_date = local.keyvault_secrets_expiration_date
+}
