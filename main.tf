@@ -97,10 +97,26 @@ resource "azurerm_service_plan" "main_linux" {
   }
 }
 
-resource "azurerm_application_insights" "example" {
+resource "azurerm_log_analytics_workspace" "main" {
+  name = "workspace-${random_pet.suffix.id}"
+  sku  = var.arm_log_analytics_workspace.sku
+
+  location            = data.azurerm_resource_group.main.location
+  resource_group_name = data.azurerm_resource_group.main.name
+
+  daily_quota_gb    = var.arm_log_analytics_workspace.daily_quota_gb
+  retention_in_days = var.arm_log_analytics_workspace.retention_in_days
+
+  tags = {
+    tf-workspace = terraform.workspace
+  }
+}
+
+resource "azurerm_application_insights" "main" {
   name                = "AAI-Web-${random_pet.suffix.id}"
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
+  workspace_id        = azurerm_log_analytics_workspace.main.id
   application_type    = "web"
 
   tags = {
