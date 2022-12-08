@@ -24,9 +24,10 @@ jobs:
       - name: ls
         run: |
           ls
+          ls reports
 
       - uses: actions/upload-artifact@v3
         name: Upload Checkov results artifacts
         with:
           name: checkov.report
-          path: results/
+          path: reports/
