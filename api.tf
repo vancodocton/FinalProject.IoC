@@ -42,6 +42,8 @@ resource "azurerm_linux_web_app" "api" {
     XDT_MicrosoftApplicationInsights_BaseExtensions = "disabled"
     XDT_MicrosoftApplicationInsights_Mode           = "recommended"
     XDT_MicrosoftApplicationInsights_PreemptSdk     = "disabled"
+
+    Bearer__Issuer = "https://${azurerm_linux_web_app.identity.default_hostname}"
   }
   sticky_settings {
     app_setting_names = [
