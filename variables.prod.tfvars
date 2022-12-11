@@ -1,4 +1,4 @@
-azurerm_service_plan_sku_name = "B1"
+azurerm_service_plan_sku_name = "S1"
 
 arm_log_analytics_workspace = {
   sku               = "PerGB2018"
